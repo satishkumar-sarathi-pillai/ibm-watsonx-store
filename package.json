@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "homepage": "https://satishkumarsarathipillai.github.io/ibm-watsonx-store",
+  "homepage": "https://satishkumar-sarathi-pillai.github.io/ibm-watsonx-store",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
