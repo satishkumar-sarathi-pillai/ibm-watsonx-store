@@ -1,0 +1,43 @@
+--- a/src/pages/LoginPage.jsx
++++ b/src/pages/LoginPage.jsx
+@@ -137,7 +137,7 @@ export default function LoginPage() {
+             </div>
+ 
+             <button type="submit" className={styles.submitBtn} disabled={loading}>
+-              {loading ? <span className={styles.btnSpinner} /> : <><ArrowRight size={18} /> Login</>}
++              {loading ? <span className={styles.btnSpinner} /> : <><ArrowRight size={18} /> Sign in</>}
+             </button>
+           </form>
+ 
+--- a/src/pages/OrderConfirmPage.jsx
++++ b/src/pages/OrderConfirmPage.jsx
+@@ -14,7 +14,7 @@ export default function OrderConfirmPage() {
+       <div className={styles.wrapper}>
+         <div className={styles.card}>
+           <div className={styles.iconWrap}><CheckCircle2 size={48} /></div>
+-          <h1>Thank you</h1>
++          <h1>Order Confirmed</h1>
+           <p>Your new phone plan is on the way. We'll send a confirmation to {order?.email || 'your inbox'} shortly.</p>
+ 
+           <div className={styles.summary}>
+--- a/src/pages/RegisterPage.jsx
++++ b/src/pages/RegisterPage.jsx
+@@ -49,7 +49,7 @@ export default function RegisterPage() {
+ 
+     if (result.success) {
+       toast.success('Account created! Please sign in.');
+-      navigate('/store');
++      navigate('/login');
+     } else {
+       toast.error(result.message);
+       setErrors({ general: result.message });
+--- a/src/pages/StorePage.jsx
++++ b/src/pages/StorePage.jsx
+@@ -44,7 +44,7 @@ export default function StorePage() {
+         <div className={styles.heroInner}>
+           <div className={styles.heroText}>
+             <div className={styles.heroBadge}><Zap size={14} /> IBM WatsonX 5G Network</div>
+-            <h1>Our Phones</h1>
++            <h1>Latest Phones</h1>
+             <p>Discover the newest smartphones with AI-powered plans. Free delivery on all orders.</p>
+             <div className={styles.heroStats}>
