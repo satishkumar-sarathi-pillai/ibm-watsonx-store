@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { mkdir, writeFile, stat } from 'node:fs/promises';
+import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 
 const uniqueEmail = `playwright-${Date.now()}@example.com`;
@@ -87,33 +87,14 @@ test('user can register, log in, browse products, and complete checkout', async 
   await testInfo.attach('07-signout', {
     path: signoutPath
   });
+});
 
-  const videoPath = path.resolve('test-results', 'e2e-user-can-register-log--2532c-ducts-and-complete-checkout', 'video.webm');
-  try {
-    const videoStats = await stat(videoPath);
-    if (videoStats.isFile()) {
-      const videoHtml = `<!doctype html>
-<html>
-  <head><meta charset="utf-8" /></head>
-  <body style="margin:0;font-family:Arial,sans-serif;background:#111;color:#fff;">
-    <h3 style="margin:8px 0;">End-to-end video recording</h3>
-    <video controls autoplay muted playsinline width="100%" style="max-width: 960px; border-radius: 8px;">
-      <source src="/test-results/e2e-user-can-register-log--2532c-ducts-and-complete-checkout/video.webm" type="video/webm">
-      Your browser does not support the video tag.
-    </video>
-    <p style="margin-top:8px;"><a href="/test-results/e2e-user-can-register-log--2532c-ducts-and-complete-checkout/video.webm" target="_blank" style="color:#7dd3fc;">Open video directly</a></p>
-  </body>
-</html>`;
-      await testInfo.attach('e2e-video-player', {
-        body: videoHtml,
-        contentType: 'text/html'
-      });
-      await testInfo.attach('e2e-video', {
-        path: videoPath,
-        contentType: 'video/webm'
-      });
-    }
-  } catch {
-    // Ignore if the video file is not available yet for this environment.
+test.afterEach(async ({ page }, testInfo) => {
+  const videoPath = await page.video()?.path();
+  if (videoPath) {
+    await testInfo.attach('e2e-video', {
+      path: videoPath,
+      contentType: 'video/webm'
+    });
   }
 });
