@@ -44,7 +44,7 @@ export default function StorePage() {
         <div className={styles.heroInner}>
           <div className={styles.heroText}>
             <div className={styles.heroBadge}><Zap size={14} /> IBM WatsonX 5G Network</div>
-            <h1>Latest Phones & Deals</h1>
+            <h1>Our Phones</h1>
             <p>Discover the newest smartphones with AI-powered plans. Free delivery on all orders.</p>
             <div className={styles.heroStats}>
               <div className={styles.stat}><strong>5G</strong><span>Network</span></div>

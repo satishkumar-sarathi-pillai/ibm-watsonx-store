@@ -137,7 +137,7 @@ export default function LoginPage() {
             </div>
 
             <button type="submit" className={styles.submitBtn} disabled={loading}>
-              {loading ? <span className={styles.btnSpinner} /> : <><ArrowRight size={18} /> Sign in</>}
+              {loading ? <span className={styles.btnSpinner} /> : <><ArrowRight size={18} /> Login</>}
             </button>
           </form>
 

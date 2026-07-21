@@ -49,7 +49,7 @@ export default function RegisterPage() {
 
     if (result.success) {
       toast.success('Account created! Please sign in.');
-      navigate('/login');
+      navigate('/store');
     } else {
       toast.error(result.message);
       setErrors({ general: result.message });
