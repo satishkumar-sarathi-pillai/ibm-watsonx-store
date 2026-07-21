@@ -14,7 +14,7 @@ export default function OrderConfirmPage() {
       <div className={styles.wrapper}>
         <div className={styles.card}>
           <div className={styles.iconWrap}><CheckCircle2 size={48} /></div>
-          <h1>Order confirmed</h1>
+          <h1>Order Confirmed</h1>
           <p>Your new phone plan is on the way. We’ll send a confirmation to {order?.email || 'your inbox'} shortly.</p>
 
           <div className={styles.summary}>
