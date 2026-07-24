@@ -1,12 +1,15 @@
 import { defineConfig } from '@playwright/test';
 
+const runId = new Date().toISOString().replace(/[:.]/g, '-').replace('T', '_').slice(0, 19);
+
 export default defineConfig({
   testDir: './tests',
+  outputDir: `test-results/${runId}`,
   timeout: 60_000,
   expect: { timeout: 10_000 },
   fullyParallel: false,
   retries: 1,
-  reporter: [['list'], ['html', { open: 'never' }]],
+  reporter: [['list'], ['html', { outputFolder: `playwright-report/${runId}`, open: 'never' }]],
   use: {
     baseURL: 'http://127.0.0.1:4173/ibm-watsonx-store',
     headless: true,
