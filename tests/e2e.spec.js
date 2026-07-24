@@ -4,8 +4,8 @@ import path from 'node:path';
 
 const uniqueEmail = `playwright-${Date.now()}@example.com`;
 
-async function saveStepScreenshot(page, name) {
-  const dir = path.resolve('test-results', 'artifacts');
+async function saveStepScreenshot(page, name, testInfo) {
+  const dir = path.resolve(testInfo.outputDir, 'artifacts');
   await mkdir(dir, { recursive: true });
   const filePath = path.join(dir, `${name}.png`);
   const buffer = await page.screenshot();
@@ -16,7 +16,7 @@ async function saveStepScreenshot(page, name) {
 test('user can register, log in, browse products, and complete checkout', async ({ page }, testInfo) => {
   await page.goto('/ibm-watsonx-store/login');
   await expect(page.getByRole('heading', { name: /sign in/i })).toBeVisible();
-  const loginPath = await saveStepScreenshot(page, '01-login-screen');
+  const loginPath = await saveStepScreenshot(page, '01-login-screen', testInfo);
   await testInfo.attach('01-login-screen', {
     path: loginPath
   });
@@ -30,7 +30,7 @@ test('user can register, log in, browse products, and complete checkout', async 
   await page.getByRole('button', { name: /create account/i }).click();
 
   await expect(page).toHaveURL(/\/login$/);
-  const registrationPath = await saveStepScreenshot(page, '02-registration-complete');
+  const registrationPath = await saveStepScreenshot(page, '02-registration-complete', testInfo);
   await testInfo.attach('02-registration-complete', {
     path: registrationPath
   });
@@ -41,20 +41,20 @@ test('user can register, log in, browse products, and complete checkout', async 
 
   await expect(page).toHaveURL(/\/store$/);
   await expect(page.getByRole('heading', { name: /latest phones/i })).toBeVisible();
-  const storePath = await saveStepScreenshot(page, '03-storefront');
+  const storePath = await saveStepScreenshot(page, '03-storefront', testInfo);
   await testInfo.attach('03-storefront', {
     path: storePath
   });
 
   await page.locator('a[href="/ibm-watsonx-store/product/iphone-15-pro"]').click();
   await page.getByRole('button', { name: /add to basket/i }).click();
-  const productPath = await saveStepScreenshot(page, '04-product-added');
+  const productPath = await saveStepScreenshot(page, '04-product-added', testInfo);
   await testInfo.attach('04-product-added', {
     path: productPath
   });
 
   await page.getByRole('link', { name: /shopping basket/i }).click();
-  const basketPath = await saveStepScreenshot(page, '05-basket');
+  const basketPath = await saveStepScreenshot(page, '05-basket', testInfo);
   await testInfo.attach('05-basket', {
     path: basketPath
   });
@@ -67,7 +67,7 @@ test('user can register, log in, browse products, and complete checkout', async 
   await page.getByRole('button', { name: /place order/i }).click();
 
   await expect(page.getByRole('heading', { name: /order confirmed/i })).toBeVisible();
-  const confirmationPath = await saveStepScreenshot(page, '06-order-confirmed');
+  const confirmationPath = await saveStepScreenshot(page, '06-order-confirmed', testInfo);
   await testInfo.attach('06-order-confirmed', {
     path: confirmationPath
   });
@@ -83,7 +83,7 @@ test('user can register, log in, browse products, and complete checkout', async 
     await page.getByRole('button', { name: /sign out/i }).click();
   }
   await expect(page).toHaveURL(/\/login$/);
-  const signoutPath = await saveStepScreenshot(page, '07-signout');
+  const signoutPath = await saveStepScreenshot(page, '07-signout', testInfo);
   await testInfo.attach('07-signout', {
     path: signoutPath
   });
