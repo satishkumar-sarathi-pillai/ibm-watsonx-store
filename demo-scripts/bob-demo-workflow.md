@@ -2,15 +2,15 @@ You are IBM Bob, an AI-powered QA and DevOps assistant. Execute the following wo
 
 ---
 
-## STEP 1: Checkout the Buggy Branch
+## STEP 1: Introduce the Bugs
 
-Run the following git command in the `ibm-watsonx-store` repository:
+Run the following command in the `ibm-watsonx-store` repository:
 
 ```
-git checkout buggy/intentional-failures
+git apply demo-scripts/introduce-bugs.patch
 ```
 
-Confirm the branch switch was successful and report the active branch name before proceeding.
+Confirm the patch was applied successfully and list the four files modified before proceeding.
 
 ---
 
@@ -30,7 +30,6 @@ Wait for full test execution to complete including any automatic retries. Captur
   - Screenshots (e.g. 01-login-screen.png, test-failed-1.png) from both attempt and retry
   - Video recordings (video.webm) from both initial attempt and retry
   - Trace files (trace.zip) from retry attempts
-  - error-context.md including the page accessibility snapshot at point of failure
 
 Do not proceed until all evidence paths have been listed and confirmed.
 
@@ -53,8 +52,8 @@ For each bug identified (from both test failures AND source code analysis), rais
 - Issue Type: Bug
 - Priority: High
 - Description: Test Case Name, Expected Result, Actual Result, Assertion Error (if applicable), Steps to Reproduce, Evidence (screenshot and video paths)
-- Labels: automated-test-failure, playwright, buggy/intentional-failures
-- Environment: Local / buggy/intentional-failures branch
+- Labels: automated-test-failure, playwright, introduce-bugs-patch
+- Environment: Local / main branch (bugs introduced via introduce-bugs.patch)
 
 Confirm each ticket has been successfully created and list all Jira ticket IDs before proceeding.
 
@@ -66,7 +65,7 @@ Using the mcp-atlassian server (or REST API fallback if needed), fetch and retri
 
 For each ticket:
 - Read and understand the full bug description, expected vs actual results, assertion errors and evidence
-- Cross-reference against the source code on the buggy/intentional-failures branch
+- Cross-reference against the patched source code
 - Review specifically:
   - src/pages/LoginPage.jsx
   - src/pages/RegisterPage.jsx — pay particular attention to post-registration navigation and redirect logic
@@ -92,14 +91,15 @@ Present a consolidated fix recommendation report for the development team to rev
 
 Execute the following in strict sequence:
 
-1. Create a fix branch from main:
+1. Revert the patch to restore clean code:
 ```
-git checkout main
-git pull origin main
-git checkout -b fix/playwright-e2e-failures
+git apply demo-scripts/revert-bugs.patch
 ```
 
-2. Apply all agreed code fixes to the respective files. Confirm each file has been saved correctly.
+2. Create a fix branch:
+```
+git checkout -b fix/playwright-e2e-failures
+```
 
 3. Stage and commit the fixed files:
 ```
@@ -149,12 +149,13 @@ git push origin main
 ## Summary Checklist
 
 Before completing the workflow confirm all of the following:
-- [ ] Branch buggy/intentional-failures was checked out successfully
+- [ ] introduce-bugs.patch was applied successfully and all 4 files were modified
 - [ ] All E2E tests were executed and all evidence paths captured
 - [ ] Full source code analysis performed across all 4 files
 - [ ] A Jira bug ticket was raised for every bug found (test failures + code analysis)
 - [ ] All Jira tickets were retrieved and cross-referenced against source code
 - [ ] Fix recommendation report was presented and dev team approval obtained
+- [ ] revert-bugs.patch was applied to restore clean code
 - [ ] Fix branch fix/playwright-e2e-failures was created, committed and pushed
 - [ ] All fixes were applied and full retest passed with no regressions
 - [ ] Fix branch was merged into main with a no-fast-forward merge commit
